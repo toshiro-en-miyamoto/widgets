@@ -445,6 +445,39 @@ clean:
 }
 ```
 
+# Building a Windows DLL with VS Code and MinGW-W64
+- ref: www.mingw.org/wiki/sampledll
+- workspace: %USERPROFILE%/workspace-vscode/widgets/helloDLL
+- prepare .vscode/tasks.json based on hello/.vscode/tasks.json
+- the "--out-implib" linker option is not required because MinGW can link
+  against the generated DLL without any import library
+- Makefile looks like
+```
+CFLAGS=-g -std=c++1z -mtune=generic -march=i686
+INCLUDES=
+LDFLAGS=
+LIBS=-L. -lexample_dll
+DLLFLAGS=
+DLLLIBS=
+
+all: example_dll.dll example_exe.exe
+
+example_dll.dll: example_dll.o
+	$(CXX) $(INCLUDES) $? $(DLLFLAGS) -shared -o $@ $(DLLLIBS)
+
+example_dll.o: example_dll.cpp example_dll.h
+	$(CXX) $(CFLAGS) $(INCLUDES) -DBUILDING_EXAMPLE_DLL -c $<
+
+example_exe.exe: example_exe.o
+	$(CXX) $(INCLUDES) $? $(LDFLAGS) -o $@ $(LIBS)
+
+clean:
+	rm *.o example_dll.dll example_exe.exe
+
+.cpp.o:
+	$(CXX) $(CFLAGS) $(INCLUDES) -c $<
+```
+
 # VS Code integratiion with MinGW-W64 and wxWidgets library
 Configuring VS Code to work with wxWidgets applications
 - create a folder for a wxWidgets application, say helloWidgets

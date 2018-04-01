@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "helloWidgets"
+		},
+		{
+			"path": "helloDLL"
 		}
 	],
 	"settings": {}
