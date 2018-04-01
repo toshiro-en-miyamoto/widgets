@@ -142,8 +142,8 @@ The cross-platform GUI library.
     </tr>
     <tr>
         <td>others</td>
-        <td>-mthread -g -O0</td>
-        <td>-mthread -O2 -fno-strict-aliasing</td>
+        <td>-mthreads -g -O0</td>
+        <td>-mthreads -O2 -fno-strict-aliasing</td>
     </tr>
     <tr>
         <td rowspan="3">g++ -o a.exe</td>
@@ -444,3 +444,106 @@ clean:
   ]
 }
 ```
+
+# VS Code integratiion with MinGW-W64 and wxWidgets library
+Configuring VS Code to work with wxWidgets applications
+- create a folder for a wxWidgets application, say helloWidgets
+  - %USERPROFILE%/workspace-vscode/widgets/helloWidegts
+- add the folder to the VS Code workspace widgets.code-workspace
+  - select the Widgets workspace in the Explorer view
+  - File > Add Folder to Workspace
+  - select the helloWidegts folder to add
+- create c_cpp_properties.json in the helloWidgets folder
+  - create the .vscode folder in the helloWidgets folder
+  - copy ../hello/.vscode/c_cpp_properties.json into the new .vscode folder
+  - edit the new c_cpp_properties.json as follows:
+```
+{
+  "configurations": [
+    {
+      "name": "Mac",
+      as is ...
+    },
+    {
+      "name": "Linux",
+      as is ...
+    },
+    {
+      "name": "Win32",
+      "includePath": [
+        "${workspaceRoot}",
+        "C:/msys64/mingw32/include/c++/7.3.0",
+        "C:/msys64/mingw32/include/c++/7.3.0/i686-w64-mingw32",
+        "C:/msys64/mingw32/include/c++/7.3.0/backward",
+        "C:/msys64/mingw32/lib/gcc/i686-w64-mingw32/7.3.0/include",
+        "C:/msys64/mingw32/include",
+        "C:/msys64/mingw32/lib/gcc/i686-w64-mingw32/7.3.0/include-fixed",
+        "C:/msys64/mingw32/i686-w64-mingw32/include",
+        "C:/wx/wx304/include",
+        "C:/wx/wx304/build32-release/lib/wx/include/msw-unicode-static-3.0"
+      ],
+      "defines": [
+        "_DEBUG",
+        "UNICODE",
+        "__GNUC__=7",
+        "__cdecl=__attribute__((__cdecl__))",
+        "__WXMSW__",
+        "_FILE_OFFSET_BITS=64",
+        "WX_PRECOMP"
+      ],
+      "intelliSenseMode": "clang-x64",
+      "browse": {
+        "path": [
+          "${workspaceRoot}",
+          "C:/msys64/mingw32/lib/gcc/i686-w64-mingw32/7.3.0/include",
+          "C:/msys64/mingw32/lib/gcc/i686-w64-mingw32/7.3.0/include-fixed",
+          "C:/msys64/mingw32/include/*"
+        ],
+        "limitSymbolsToIncludedHeaders": true,
+        "databaseFilename": ""
+      },
+      "cppStandard": "c++17",
+      "cStandard": "c11"
+    }
+  ],
+  "version": 3
+}
+```
+- prepare the json files based on those files in the hello folder
+  - tasks.json
+  - launch.json
+- prepare Makefile
+  - based on the Makefile in the hello folders
+  - add compiler/linker options for wxWidgets
+```
+CFLAGS=-mthreads -g -O0 -std=c++1z -static -mtune=generic -march=i686 \
+  -Wall -Wundef -Wunused-parameter -Wno-ctor-dtor-privacy -Woverloaded-virtual
+INCLUDES=-I/c/wx/wx304/include -I/c/wx/wx304/build32-debug/lib/wx/include/msw-unicode-static-3.0
+DEFINES=-D__WXMSW__ -D_FILE_OFFSET_BITS=64 -DWX_PRECOMP
+LDFLAGS=-mwindows -mthreads
+LIBS=-lstdc++fs -L/c/wx/wx304/build32-debug/lib \
+  -lwx_mswu_core-3.0 -lwx_baseu-3.0 -lwxtiff-3.0 -lwxjpeg-3.0 -lwxpng-3.0 -lwxregexu-3.0 \
+	-lz -lrpcrt4 -loleaut32 -lole32 -luuid -llzma -lwinspool -lwinmm -lshell32 -lcomctl32 \
+	-lcomdlg32 -ladvapi32 -lwsock32 -lgdi32
+
+helloWidgets.exe: helloWidgets.o
+	$(CXX) $? $(LDFLAGS) -o $@ $(LIBS)
+
+clean:
+	rm *.o helloWidgets.exe
+
+.cpp.o:
+	$(CXX) $(CFLAGS) $(DEFINES) $(INCLUDES) -c $<
+```
+- create helloWidgets.cpp
+  - a sample wxWidgets from docs.wxwidgets.org/trunk/overview_helloworld.html
+- disable the Error Squiggles
+  - open the helloWidgets.cpp, when you might find error squigles
+  - you can safely ignore them by creating helloWidgets/.vscode/settings.json
+```
+{
+  "C_Cpp.errorSquiggles": "Disabled"
+}
+```
+- check if you can build helloWidgets.cpp
+  - Tasks > Run Tasks.. > make helloWidgets
