@@ -207,25 +207,25 @@ One of the IDE that works on macOS, Linux and Windows.
 Cloning a github.com repository.
 - ref: code.visualstudio.com/docs/editor/versioncontrol
 - at github.com
-  - create a reposiotry, e.g. wxWidgets, in your account of github.com.
+  - create a reposiotry, e.g. widgets, in your account of github.com.
   - create and commit README.md in the repository.
 - on your Windows
   - create a folder, e.g. %USERPROFILE%\workspace-vscode
 - clone the repository with the Git: Clone command in the Command Pallete
-  - from: your repository, e.g. github.com/your-account/your-repo
+  - from: your repository, e.g. github.com/your-account/widgets
   - to: your local folder, e.g. %USERPROFILE%\workspace-vscode
 - you will get the clone repository
-  - %USERPROFILE%\workspace-vscode\your-repo
-  - create the '.gitignore' file in your-repo
+  - %USERPROFILE%\workspace-vscode\widgets
+  - create the '.gitignore' file in the widgets folder
 ```
     *.o
     *.exe
 ```
-- don't let the Git extension to open the repo, just close the Git extension popup
+- don't let the Git extension to open the widgets folder, just close the Git extension popup
 
 Making the repo as a VS Code workspace.
 - create the root-workspace folder
-  - e.g. the 'vscode' folder in %USERPROFILE%\workspace-vscode\your-repo
+  - e.g. the 'vscode' folder in %USERPROFILE%\workspace-vscode\widgets
   - the shared settings among multiple workspaces under the folder will go there
 - now is the time you can customize VS Code settings
   - click the Cog icon at the bottom of the Explorer
@@ -242,7 +242,7 @@ Making the repo as a VS Code workspace.
 ```
 - save the workspace configuration file
   - File > Save As Workspace...
-  - save as, e.g. 'your-repo.code-workspace' file in the your-repo folder
+  - save as, e.g. 'widgets.code-workspace' file in the widgets folder
 ```
     {
       "folders": [
@@ -255,11 +255,11 @@ Making the repo as a VS Code workspace.
 ```
 - check to see if Git is working
   - in the Exploere view, the following should be marked as an untracked change
-    - your-repo\vscode\.vscode\settings.json
+    - widgets\vscode\.vscode\settings.json
   - in the Source Control view, the following should be marked as untracked changes
-    - your-repo\vscode\.vscode\settings.json
-    - your-repo\your-repo.code-workspace
-    - your-repo\.gitignorefile
+    - widgets\vscode\.vscode\settings.json
+    - widgets\widgets.code-workspace
+    - widgets\.gitignore
   - add the above files into the Git index, then
     - commit
     - synchronize changes
@@ -320,13 +320,13 @@ Configuring VS Code to work with MinGW-W64 toolchain.
 - create the 'hello' folder in the workspace
   - ref: code.visualstudio.com/docs/editor/multi-root-workspaces
   - File > Add Folder to Workspace
-  - select %USERPROFILE%/workspace-vscode/your-repo
-  - create a folder in the your-repo and name it 'hello'
+  - select %USERPROFILE%/workspace-vscode/widgets
+  - create a folder in the folder and name it 'hello'
   - select the hello folder to add to the workspace
   - your workspace now has two folders: vscode and hello
   - the Explorer should look like this
 ```
-    > YOUR-REPO (WORKSPACE)
+    > WIDGETS (WORKSPACE)
       > vscode
         > .vscode
           {} c_cpp_properties.json
@@ -336,7 +336,7 @@ Configuring VS Code to work with MinGW-W64 toolchain.
 - copy vscode\.vscode\c_cpp_properties.json into the hello folder
   - the Explorer should look like this
 ```
-    > YOUR-REPO (WORKSPACE)
+    > WIDGETS (WORKSPACE)
       > vscode
         > .vscode
           {} c_cpp_properties.json
@@ -348,9 +348,10 @@ Configuring VS Code to work with MinGW-W64 toolchain.
 - create tasks.json in the hello folder
   - Tasks > Configure Tasks menu
   - you should have two options
-    - Create task.json file from template - your-repo
+    - Create task.json file from template - widgets
     - Create task.json file from template - hello
   - select 'Create ... - hello'
+    - select Others
 ```
 {
   "version": "2.0.0",
@@ -408,7 +409,7 @@ clean:
   - ref: code.visualstudio.com/docs/languages/cpp
   - open the Debug view, and click the 'No Configuration' popup at the top
   - you will find three options in the dropdown menu
-    - Add Config (your-repo)
+    - Add Config (widgets)
     - Add Config (hello)
     - Add Config (workspace)
   - select the Add Config (hello) option
