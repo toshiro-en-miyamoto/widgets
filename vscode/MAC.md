@@ -1,9 +1,24 @@
-# Git
-- use Apple Git
+# Apple Command Line Tools
+- Git is provided by the tool
+- Home-brew requires the tool
+- developer.apple.com/download/more/
+- Command Line Tools (macOS 10.13) for X code
+- install the tool
 ```
-    $ git --version
+    $ g++ --version
+    Configured with:
+     --prefix=/Library/Developer/CommandLineTools/usr
+     --with-gxx-include-dir=/usr/include/c++/4.2.1
+    Apple LLVM version 9.1.0 (clang-902.0.39.1)
+    Target: x86_64-apple-darwin17.5.0
+    Thread model: posix
+    InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+
+    $ git --version
     git version 2.15.1 (Apple Git-101)
 ```
+
+# Git
 - configure Git
  - ref: git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
 ```
@@ -12,9 +27,9 @@
     $ git config --global core.editor of_your_choise (e.g. "/usr/bin/vim")
     $ git config --list
     credential.helper=osxkeychain
-    user.name=Toshiro Miyamoto
-    user.email=toshiro.en.miyamoto@gmail.com
-    core.editor=/usr/bin/vim
+    user.name=your name
+    user.email=your.account@mail.somewhere
+    core.editor=/usr/bin/vim
 ```
 - generate your SSH public key
  - ref: git-scm.com/book/en/v2/Git-on-the-Server-Generating-Your-SSH-Public-Key
@@ -31,22 +46,6 @@
 ```
 - register the public key in your GitHub.com account
 
-# Apple Command Line Tools
-- Home-brew requires the tool
-- developer.apple.com/download/more/
-- Command Line Tools (macOS 10.13) for X code
-- install the tool
-```
-    $ g++ --version
-    Configured with:
-     --prefix=/Library/Developer/CommandLineTools/usr
-     --with-gxx-include-dir=/usr/include/c++/4.2.1
-    Apple LLVM version 9.1.0 (clang-902.0.39.1)
-    Target: x86_64-apple-darwin17.5.0
-    Thread model: posix
-    InstalledDir: /Library/Developer/CommandLineTools/usr/bin
-```
-
 # Home-brew
 - brew.sh
 - install home-brew
@@ -55,9 +54,9 @@
 ```
 - check version
 ```
-$ brew --version
-Homebrew 1.5.13
-Homebrew/homebrew-core (git revision 41dd; last commit 2018-03-31)
+    $ brew --version
+    Homebrew 1.5.13
+    Homebrew/homebrew-core (git revision 41dd; last commit 2018-03-31)
 ```
 
 $ Open JDK
