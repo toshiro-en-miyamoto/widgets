@@ -1,8 +1,9 @@
 # Apple Command Line Tools
-- Git is provided by the tool
-- Home-brew requires the tool
+- The C++ toolchain for mac osx
+  - Git is provided by the tool
+  - Home-brew requires the tool
 - developer.apple.com/download/more/
-- Command Line Tools (macOS 10.13) for X code
+  - Command Line Tools (macOS 10.13) for X code
 - install the tool
 ```
     $ g++ --version
@@ -16,6 +17,29 @@
 
     $ git --version
     git version 2.15.1 (Apple Git-101)
+
+    $ lldb --version
+    lldb-902.0.79.2
+      Swift-4.1
+```
+- build a C++17 application
+```
+    $ cd ~/cpp/hello
+    $ cat HelloFilesystem.cpp
+    #include <iostream>
+    #include <experimental/filesystem>
+    namespace fs = std::experimental::filesystem;
+    using namespace std;
+    int main() {
+      cout << fs::current_path() << endl;
+      return 0;
+    }
+
+    $ g++ -std=c++17 HelloFilesystem.cpp -lstdc++fs
+    HelloFilesystem.cpp:2:10: fatal error: 'filesystem' file not found
+    #include <experimental/filesystem>
+             ^~~~~~~~~~~~
+    1 error generated.
 ```
 
 # Git
@@ -58,12 +82,3 @@
     Homebrew 1.5.13
     Homebrew/homebrew-core (git revision 41dd; last commit 2018-03-31)
 ```
-
-$ Open JDK
-- ref: https://github.com/AdoptOpenJDK/homebrew-openjdk
-- install the latest JDK
-```
-    $ brew tap AdoptOpenJDK/openjdk
-    $ brew install adoptopenjdk-openjdk10
-```
-
